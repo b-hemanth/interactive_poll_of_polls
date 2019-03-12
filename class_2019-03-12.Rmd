@@ -46,7 +46,7 @@ fs::file_delete("uk.csv")
 uk <- uk %>% 
   gather(party, seats, con:snp)
 
-plot_ly(uk, x = ~x, y = ~random_y, type = 'scatter', mode = 'lines')
+p <- plot_ly(uk, x = ~party, y = ~seats, type = 'scatter', mode = 'lines')
 
 # Create a shareable link to your chart
 # Set up API credentials: https://plot.ly/r/getting-started
