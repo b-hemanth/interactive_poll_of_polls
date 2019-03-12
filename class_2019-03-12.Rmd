@@ -62,7 +62,7 @@ plot <- spain %>%
   spread(key = party, value = mean_f) %>% 
   ungroup()
 
-plot$date <- as.yearmon(plot$date, "%d/%B/%Y")
+plot$date <- format(plot$date, "%d/%B/%Y")
 
 p <- plot_ly(plot, x = ~date, y = ~pp, name = 'PP', type = 'scatter', mode = 'lines+markers') %>%
   add_trace(y = ~psoe, name = 'PSOE', mode = 'lines+markers') %>% 
