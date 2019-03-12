@@ -62,7 +62,7 @@ plot <- spain %>%
   spread(key = party, value = mean_f) %>% 
   ungroup()
 
-plot$date <- as.yearmon(plot$date, "%B/%Y")
+plot$date <- as.yearmon(plot$date, "%d/%B/%Y")
 
 p <- plot_ly(plot, x = ~date, y = ~pp, name = 'PP', type = 'scatter', mode = 'lines+markers') %>%
   add_trace(y = ~psoe, name = 'PSOE', mode = 'lines+markers') %>% 
@@ -75,8 +75,8 @@ p <- plot_ly(plot, x = ~date, y = ~pp, name = 'PP', type = 'scatter', mode = 'li
   add_trace(y = ~eh_bildu, name = 'EH Bildu', mode = 'lines+markers') %>% 
   add_trace(y = ~p_de_cat, name = 'PDeCat', mode = 'lines+markers') %>% 
   layout(title = "1 Year Election Polls", 
-          yaxis = list(title = "Date"), 
-          xaxis = list(title = "Seats"))
+          yaxis = list(title = "Seats"), 
+          xaxis = list(title = "Date"))
 
 # Create a shareable link to your chart
 # Set up API credentials: https://plot.ly/r/getting-started
