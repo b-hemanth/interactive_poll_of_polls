@@ -42,7 +42,7 @@ spain <- read_csv(
 fs::file_delete("spain.csv")
 ```
 
-# The interactive plot
+# March 2018 to March 2019 Spanish Election Data: Interactive Plot
 
 ```{r plotly}
 # p <- plot_ly(uk, x = ~party, y = ~seats, type = 'scatter', mode = 'lines+markers')x
