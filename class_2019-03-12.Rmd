@@ -10,6 +10,9 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(readr)
 library(tidyverse)
 library(fs)
+library(janitor)
+library(tidyr)
+library(plotly)
 download.file(
   url = "https://pollofpolls.eu/get/polls/GB-parliament/format/csv",
   destfile = "uk.csv",
@@ -31,7 +34,23 @@ uk <- read_csv(
     LibDem = col_double(),
     UKIP = col_double(),
     SNP = col_double()
-    ))
+    )) %>% 
+  clean_names()
 
 fs::file_delete("uk.csv")
 ```
+
+# The interactive plot
+
+```{r}
+uk <- uk %>% 
+  gather(party, seats, con:snp)
+
+plot_ly(uk, x = ~x, y = ~random_y, type = 'scatter', mode = 'lines')
+
+# Create a shareable link to your chart
+# Set up API credentials: https://plot.ly/r/getting-started
+chart_link = api_create(p, filename="line-basic")
+chart_link
+```
+
