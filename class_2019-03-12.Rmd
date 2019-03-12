@@ -1,0 +1,37 @@
+---
+title: 'Class #7.1'
+author: "Hemanth Bharatha Chakravarthy"
+date: "3/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(readr)
+library(tidyverse)
+library(fs)
+download.file(
+  url = "https://pollofpolls.eu/get/polls/GB-parliament/format/csv",
+  destfile = "uk.csv",
+  mode = "wb"
+  )
+
+uk <- read_csv(
+  "uk.csv",
+   col_names = TRUE,
+   cols(
+    date = col_date(format = ""),
+    firm = col_character(),
+    n = col_double(),
+    sd = col_double(),
+    source = col_character(),
+    Con = col_double(),
+    Green = col_double(),
+    Lab = col_double(),
+    LibDem = col_double(),
+    UKIP = col_double(),
+    SNP = col_double()
+    ))
+
+fs::file_delete("uk.csv")
+```
