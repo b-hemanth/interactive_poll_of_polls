@@ -13,6 +13,8 @@ library(fs)
 library(janitor)
 library(tidyr)
 library(plotly)
+library(lubridate)
+library(zoo)
 download.file(
   url = "https://pollofpolls.eu/get/polls/ES-parliament/format/csv",
   destfile = "spain.csv",
@@ -43,7 +45,7 @@ fs::file_delete("spain.csv")
 # The interactive plot
 
 ```{r plotly}
-# p <- plot_ly(uk, x = ~party, y = ~seats, type = 'scatter', mode = 'lines')
+# p <- plot_ly(uk, x = ~party, y = ~seats, type = 'scatter', mode = 'lines+markers')x
 list <- spain %>% 
   group_by(firm) %>% 
   summarise(n = n()) %>% 
@@ -54,11 +56,13 @@ plot <- spain %>%
   group_by(firm) %>% 
   inner_join(list, by = "firm") %>% 
   filter(date > "2018-03-01") %>%
-  mutate(date = as.Date(date, format = "%Y/%B")) %>% 
   gather(party, count, pp:p_de_cat) %>% 
   group_by(date, party) %>% 
   summarise(mean_f = mean(count)) %>% 
-  spread(key = party, value = mean_f)
+  spread(key = party, value = mean_f) %>% 
+  ungroup()
+
+plot$date <- as.yearmon(plot$date, "%B/%Y")
 
 p <- plot_ly(plot, x = ~date, y = ~pp, name = 'PP', type = 'scatter', mode = 'lines+markers') %>%
   add_trace(y = ~psoe, name = 'PSOE', mode = 'lines+markers') %>% 
@@ -69,7 +73,10 @@ p <- plot_ly(plot, x = ~date, y = ~pp, name = 'PP', type = 'scatter', mode = 'li
   add_trace(y = ~vox, name = 'VOX', mode = 'lines+markers') %>% 
   add_trace(y = ~podemos, name = 'PODEMOS', mode = 'lines+markers') %>% 
   add_trace(y = ~eh_bildu, name = 'EH Bildu', mode = 'lines+markers') %>% 
-  add_trace(y = ~p_de_cat, name = 'PDeCat', mode = 'lines+markers')
+  add_trace(y = ~p_de_cat, name = 'PDeCat', mode = 'lines+markers') %>% 
+  layout(title = "1 Year Election Polls", 
+          yaxis = list(title = "Date"), 
+          xaxis = list(title = "Seats"))
 
 # Create a shareable link to your chart
 # Set up API credentials: https://plot.ly/r/getting-started
@@ -78,5 +85,7 @@ Sys.setenv("plotly_api_key"="qgHNIc7BXBaZ7wIRIdoS")
 
 chart_link = api_create(p, filename="line-basic")
 chart_link
+
 ```
 
+https://plot.ly/~wtannergildea/1/#/
