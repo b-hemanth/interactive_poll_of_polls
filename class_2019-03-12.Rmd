@@ -83,7 +83,7 @@ p <- plot_ly(plot, x = ~date, y = ~pp, name = 'PP', type = 'scatter', mode = 'li
 Sys.setenv("plotly_username"="wtannergildea")
 Sys.setenv("plotly_api_key"="qgHNIc7BXBaZ7wIRIdoS")
 
-chart_link = api_create(p, filename="line-basic")
+chart_link = api_create(p, filename="scatter-modes")
 chart_link
 
 ```
